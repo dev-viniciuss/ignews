@@ -1,4 +1,7 @@
 import Head from 'next/head'
+import Image from 'next/image'
+
+import avatarImg from '../../public/images/avatar.svg'
 
 import { SubscribeButton } from '../components/SubscribeButton'
 
@@ -28,7 +31,7 @@ export default function Home() {
           <SubscribeButton />
         </section>
 
-        <img src="/images/avatar.svg" alt="Girl coding" />
+        <Image src={avatarImg} alt="Girl coding" />
       </main>
     </>
   )
