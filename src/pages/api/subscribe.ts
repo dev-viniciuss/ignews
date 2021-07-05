@@ -10,7 +10,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       email: session.user.email,  
     })
 
-
     const stripeCheckoutSession = await stripe.checkout.sessions.create({
       customer: stripeCustomer.id,
       payment_method_types: ['card'],
