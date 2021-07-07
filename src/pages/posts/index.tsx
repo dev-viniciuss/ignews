@@ -1,4 +1,8 @@
 import Head from "next/head";
+import { GetStaticProps } from "next";
+
+import Prismic from '@prismicio/client'
+import { getPrismicClient } from '../../services/prismic'
 
 import styles from './styles.module.scss'
 
@@ -16,23 +20,28 @@ export default function Posts() {
             <strong>Creating a Monorepo with Lerna & Yarn Workspaces</strong>
             <p>In this guide, you will learn how to create a Monorepo to manage multiple packages with a shared build, test, and release process.</p>
           </a>
-          <a href="/posts">
-            <time>12 de março de 2021</time>
-            <strong>Creating a Monorepo with Lerna & Yarn Workspaces</strong>
-            <p>In this guide, you will learn how to create a Monorepo to manage multiple packages with a shared build, test, and release process.</p>
-          </a>
-          <a href="/posts">
-            <time>12 de março de 2021</time>
-            <strong>Creating a Monorepo with Lerna & Yarn Workspaces</strong>
-            <p>In this guide, you will learn how to create a Monorepo to manage multiple packages with a shared build, test, and release process.</p>
-          </a>
-          <a href="/posts">
-            <time>12 de março de 2021</time>
-            <strong>Creating a Monorepo with Lerna & Yarn Workspaces</strong>
-            <p>In this guide, you will learn how to create a Monorepo to manage multiple packages with a shared build, test, and release process.</p>
-          </a>
         </div>
       </main>
     </>
   )
+}
+
+export const getStaticProps: GetStaticProps = async () => {
+  const primisc = getPrismicClient()
+
+  const response = await primisc.query([
+    Prismic.predicates.at('document.type', 'post')
+  ], {
+    fetch: ['post.title', 'post.content'],
+    pageSize: 100,
+  })
+
+  console.log('====================================');
+  console.log(response);
+  console.log('====================================');
+
+  return {
+    props: {},
+    revalidate: 60 * 60 * 24, // 24 hours
+  }
 }
